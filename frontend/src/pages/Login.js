@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { loginUser } from "../services/apiService";  //servicio
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import "../css/Login.css";
 
-const Login = ({ setIsAuthenticated }) => {
+const Login = ({ setIsAuthenticated, setRole }) => {
   const [formData, setFormData] = useState({ correo: "", password: "" });
   const [error, setError] = useState(""); 
   const [loading, setLoading] = useState(false);
@@ -21,14 +21,17 @@ const Login = ({ setIsAuthenticated }) => {
     try {
       const result = await loginUser(formData);
       if (result.message === 'Inicio de sesión exitoso.') {
-        alert(result.message);
         console.log("Login exitoso", result);    
         navigate('/cita');
+        const data = result.usuario;
+        setRole(data.rol); 
         setIsAuthenticated(true);
         localStorage.setItem('isAuthenticated', 'true'); 
+        localStorage.setItem('rol', data.rol);
       } else {
         alert(result.message);
       } 
+      setFormData({correo: "", password: "" });
       setLoading(false);
 
     } catch (error) {
@@ -73,6 +76,9 @@ const Login = ({ setIsAuthenticated }) => {
             {loading ? "Cargando..." : "Ingresar"}
           </button>
         </form>
+        <p className="register-link">
+          ¿No tienes una cuenta? <Link to="/register">Regístrate aquí</Link>
+        </p>
       </div>
     </div>
   );

@@ -15,7 +15,6 @@
     justify-content: center;
     align-items: center;
     height: 100vh;
-    padding: 10%;
     background: linear-gradient(135deg, #2575fc);
     font-family: 'Arial', sans-serif;
   }
@@ -26,7 +25,7 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     text-align: center;
     width: 100%;
-    max-width: 400px;
+    max-width: 500px;
   }
   
   
@@ -34,6 +33,10 @@
     text-align: center;
     margin-bottom: 20px;
     color: #4a90e2;
+    padding: 5%;
+  }
+  h2{
+    padding: 2%;
   }
   
   .appointment-form {
@@ -74,10 +77,6 @@
     border: 1px solid #ddd;
     border-radius: 4px;
     margin-top: 5px;
-  }
-  
-  .select-input {
-    background-color: #f9f9f9;
   }
   
   .input-field {
