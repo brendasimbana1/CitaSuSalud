@@ -97,4 +97,4 @@ npm start
 
 ## Configuración de MongoDB
 - MongoDB URI: Asegúrate de tener MongoDB instalado y en ejecución, o usa MongoDB Atlas para la configuración remota.
-- Si usas MongoDB Atlas, asegúrate de la URL para su funcionamiento.
+- Si usas MongoDB Atlas, asegúrate de cambiar la URL para su funcionamiento.
