@@ -20,12 +20,12 @@ const Login = ({ setIsAuthenticated, setRole }) => {
 
     try {
       const result = await loginUser(formData);
-      if (result.message === 'Inicio de sesión exitoso.') {
-        console.log("Login exitoso", result);    
+      if (result.message === 'Inicio de sesión exitoso.') {  
         navigate('/cita');
         const data = result.usuario;
         setRole(data.rol); 
         setIsAuthenticated(true);
+        localStorage.setItem('userId',data._id)
         localStorage.setItem('isAuthenticated', 'true'); 
         localStorage.setItem('rol', data.rol);
       } else {
@@ -46,7 +46,7 @@ const Login = ({ setIsAuthenticated, setRole }) => {
     <div className="login-container">
       <div className="login-box">
         <h2>Iniciar Sesión</h2>
-        {error && <p className="error">{error}</p>} {/* Mostrar el error si hay uno */}
+        {error && <p className="error">{error}</p>}
         <form onSubmit={handleSubmit}>
           <div className="input-group">
             <label htmlFor="correo">Correo electrónico</label>

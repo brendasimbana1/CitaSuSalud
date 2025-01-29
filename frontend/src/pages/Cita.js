@@ -1,24 +1,68 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../css/Cita.css';
+import { fetchEspecialidades, registrarCita, fetchDoctores, fetchHorariosDisponibles } from '../services/apiService';
 
 
 const Cita = () => {
-  const [specialty, setSpecialty] = useState('');
-  const [hour, setHour] = useState('');
-  const [date, setDate] = useState('');
-  const [reason, setReason] = useState('');
+  const [especialidades, setEspecialidades] = useState([]);
+  const [selectedEspecialidad, setSelectedEspecialidad] = useState('');
+  const [date, setDate] = useState("");
+  const [doctores, setDoctores] = useState([]);
+  const [selectedDoctor, setSelectedDoctor] = useState('');
+  const [availableHours, setAvailableHours] = useState([]);
+  const [hour, setHour] = useState("");
+  const [reason, setReason] = useState("");
+
+  useEffect(() => {
+      const getEspecialidades = async () => {
+        const data = await fetchEspecialidades();
+        setEspecialidades(data);
+      };
+      getEspecialidades();
+    }, []);
+  
+    useEffect(() => {
+      const getDoctores = async () => {
+        if (selectedEspecialidad) {
+          const data = await fetchDoctores(selectedEspecialidad);
+          setDoctores(data);
+        }
+      };
+      getDoctores();
+    }, [selectedEspecialidad]);
+
+    useEffect(() => {
+      const getHorarios = async () => {
+        if (selectedDoctor && date) {
+          const data = await fetchHorariosDisponibles(selectedDoctor, date);
+          setAvailableHours(data);
+        }
+      };
+      getHorarios();
+    }, [selectedDoctor, date]);
   
 
-  const hours = ['08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00'];
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log({
-      specialty,
-      hour,
-      date,
-      reason,
-    });
+    if (!selectedEspecialidad || !selectedDoctor || !selectedEspecialidad || !date || !hour || !reason) {
+      alert('Por favor, completa todos los campos.');
+      return;
+  }
+    const userId = localStorage.getItem('userId');
+    const CitaData = { 
+      pacienteId: userId,
+      doctorId: selectedDoctor,
+      especialidad: selectedEspecialidad,
+      fecha: date,
+      hora: hour,
+      motivo: reason,
+  }
+    const result = await registrarCita(CitaData);
+    if (result.message === 'Cita registrada exitosamente.') {
+      alert(result.message);
+      }else{
+      alert("Error al registar la cita");
+      }
   };
 
   return (
@@ -27,64 +71,40 @@ const Cita = () => {
         <h2>Formulario de Cita Médica</h2>
         <form className="appointment-form" onSubmit={handleSubmit}>
           <div className="form-group">
-            <br></br>
-            <label>Especialidad:</label>
-            <div className="radio-group">
-              <label>
-                <input
-                  type="radio"
-                  value="Ginecología"
-                  checked={specialty === 'Ginecología'}
-                  onChange={(e) => setSpecialty(e.target.value)}
-                />
-                Ginecología
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  value="Medicina General"
-                  checked={specialty === 'Medicina General'}
-                  onChange={(e) => setSpecialty(e.target.value)}
-                />
-                Medicina General
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  value="Odontología"
-                  checked={specialty === 'Odontología'}
-                  onChange={(e) => setSpecialty(e.target.value)}
-                />
-                Odontología
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  value="Fisioterapia"
-                  checked={specialty === 'Fisioterapia'}
-                  onChange={(e) => setSpecialty(e.target.value)}
-                />
-                Fisioterapia
-              </label>
-            </div>
-          </div>
-
           <div className="form-group">
-            <label>Hora:</label>
+            <label>Especialidad:</label>
             <select
-              className="select-input"
-              value={hour}
-              onChange={(e) => setHour(e.target.value)}
+              className="input-field"
+              value={selectedEspecialidad}
+              onChange={(e) => setSelectedEspecialidad(e.target.value)}
             >
-              <option value="">Seleccione una hora</option>
-              {hours.map((hour) => (
-                <option key={hour} value={hour}>
-                  {hour}
+              <option value="">Seleccione una especialidad</option>
+              {especialidades.map((especialidad, index) => (
+                <option key={index} value={especialidad.nombre}>
+                  {especialidad.nombre}
                 </option>
               ))}
             </select>
           </div>
+          </div>
 
+          {doctores.length > 0 && (
+            <div className="form-group">
+              <label>Doctor:</label>
+              <select
+                className="input-field"
+                value={selectedDoctor}
+                onChange={(e) => setSelectedDoctor(e.target.value)}
+              >
+                <option value="">Seleccione un doctor</option>
+                {doctores.map((doctor, index) => (
+                  <option key={index} value={doctor}>
+                    {doctor}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
           <div className="form-group">
             <label>Fecha:</label>
             <input
@@ -95,6 +115,27 @@ const Cita = () => {
             />
           </div>
 
+          
+          {availableHours.length > 0 && (
+          <div className="form-group">
+          <label>Hora:</label>
+          <select
+            className="select-input"
+            value={hour}
+            onChange={(e) => setHour(e.target.value)}
+          >
+            <option value="">Seleccione una hora</option>
+            {availableHours.map((hora, index) => (
+              <option key={index} value={hora}>
+                {hora}
+              </option>
+            ))}
+          </select>
+          </div>
+        )}
+          
+
+          
           <div className="form-group">
             <label>Motivo de consulta:</label>
             <input

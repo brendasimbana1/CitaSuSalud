@@ -4,6 +4,8 @@ import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Cita from "./pages/Cita";
+import Banner from './components/Banner';
+import MisCitas from "./pages/MisCitas";
 import Gestionar from "./pages/Gestionar";
 import NotFound from "./pages/NotFound";
 import Footer from './components/Footer'; 
@@ -25,10 +27,12 @@ function App() {
 
   return (
     <Router>
+      <Banner />
       <Navbar isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} 
       rol={rol} 
       setRole={setRole} />
       <div className="content">
+      
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} setRole={setRole}/>} />
@@ -69,6 +73,18 @@ function App() {
               userRole={rol}
             >
               <Cita />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/MisCitas"
+          element={
+            <ProtectedRoute
+              isAuthenticated={isAuthenticated}
+              requiredRole={2}
+              userRole={rol}
+            >
+              <MisCitas />
             </ProtectedRoute>
           }
         />

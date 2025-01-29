@@ -38,6 +38,9 @@ const Navbar = ({ isAuthenticated, setIsAuthenticated, rol }) => {
                 <li>
                   <Link to="/cita">Citas</Link>
                 </li>
+                <li>
+                  <Link to="/MisCitas"> Mis Citas</Link>
+                </li>
               </>
             )}
             <li>
