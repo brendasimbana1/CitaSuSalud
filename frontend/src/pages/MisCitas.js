@@ -47,17 +47,27 @@ const MisCitas = () => {
             </tr>
           </thead>
           <tbody>
-            {citas.map((cita) => (
-              <tr key={cita._id}>
-                <td>{cita.especialidad}</td>
-                <td>{cita.fecha}</td>
-                <td>{cita.hora}</td>
-                <td>{cita.motivo}</td>
-                <td>
-                  <button className='boton' onClick={() => handleCancelar(cita._id)}>Cancelar</button>
-                </td>
-              </tr>
-            ))}
+          {citas.map((cita) => (
+            <tr key={cita._id}>
+              <td>{cita.especialidad}</td>
+              <td>{cita.fecha}</td>
+              <td>{cita.hora}</td>
+              <td>{cita.motivo}</td>
+              <td>
+                <button
+                  className="boton"
+                  onClick={() => {
+                    if (window.confirm(`¿Estás seguro de que deseas cancelar la cita de ${cita.especialidad} el ${cita.fecha} a las ${cita.hora}?`)) {
+                      handleCancelar(cita._id);
+                    }
+                  }}
+                >
+                  Cancelar
+                </button>
+              </td>
+            </tr>
+          ))}
+
           </tbody>
         </table>
       ) : (

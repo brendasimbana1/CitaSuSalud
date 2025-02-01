@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../css/Cita.css';
 import { fetchEspecialidades, registrarCita, fetchDoctores, fetchHorariosDisponibles } from '../services/apiService';
-
+import { useNavigate } from "react-router-dom";
 
 const Cita = () => {
   const [especialidades, setEspecialidades] = useState([]);
@@ -12,6 +12,7 @@ const Cita = () => {
   const [availableHours, setAvailableHours] = useState([]);
   const [hour, setHour] = useState("");
   const [reason, setReason] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
       const getEspecialidades = async () => {
@@ -59,7 +60,8 @@ const Cita = () => {
   }
     const result = await registrarCita(CitaData);
     if (result.message === 'Cita registrada exitosamente.') {
-      alert(result.message);
+        alert(result.message);
+        navigate("/MisCitas"); 
       }else{
       alert("Error al registar la cita");
       }

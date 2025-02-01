@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { registerUser } from "../services/apiService";
-import "../css/Register.css";  // Asegúrate de tener una hoja de estilo
+import "../css/Register.css";
 
 const Register = () => {
     const [formData, setFormData] = useState({

@@ -1,14 +1,14 @@
 .banner {
-    background-image: url('../assets/imagen.jpg');
-    background-size: cover;
-    background-position: center;
-    position: relative;
-    color: white;
-    text-align: center;
-    padding: 30px 5px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    border-radius: 10px;
-    margin-bottom: 0px;
+  background-image: url('../assets/58293.jpg');
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  color: white;
+  text-align: center;
+  padding: 30px 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  margin-bottom: 0px;
 }
 
 .banner::after {
@@ -18,29 +18,21 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.5); 
-  z-index: 1; 
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 0;
 }
 
-.banner h1 {
-  z-index: 3; 
+.banner-content {
+  position: relative;
+  z-index: 1;
 }
-  .banner-content h1 {
-    font-size: 3rem;
-    margin-bottom: 10px;
-    z-index: 2; 
-    color: #c9215c;
-  }
-  
-  .banner-content p {
-    font-size: 1.2rem;
-    margin-top: 0;
-    z-index: 2; 
-    color:#c9215c;
-  }
-  
-  .banner h1, .banner p {
-    font-family: 'Arial', sans-serif;
-    
-  }
-  
+
+.banner-content h1{
+  font-size: 3em;
+}
+
+.banner-content h1, 
+.banner-content p {
+  color: #c9215c;
+  font-weight: bold;
+}
